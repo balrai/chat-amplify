@@ -1,0 +1,67 @@
+type User @model {
+  id: ID!
+  username: String!
+  company: String
+  phone: String
+  fullName: String
+  email: String
+  conversations: [ConversationLink] @connection(name: "UserLinks")
+  messages: [Message] @connection(name: "UserMessages")
+  createdAt: String
+  updatedAt: String
+}
+
+type Conversation
+  @searchable
+  @model(mutations: { create: "createConversation" }, subscriptions: null)
+  @auth(rules: [{ allow: owner, ownerField: "members" }]) {
+  id: ID!
+  messages: [Message]
+    @connection(name: "ConversationMsgs", sortField: "createdAt")
+  associated: [ConversationLink] @connection(name: "AssociatedLinks")
+  name: String!
+  members: [String!]!
+  createdAt: String
+  updatedAt: String
+}
+
+type Message
+  @model(
+    mutations: { create: "createMessage" }
+    subscriptions: null
+    queries: null
+  ) {
+  # @auth(rules: [{ allow: owner, ownerField: "authorId" }])
+  id: ID!
+  author: User @connection(name: "UserMessages", keyField: "authorId")
+  authorId: String!
+  content: String!
+  conversation: Conversation! @connection(name: "ConversationMsgs")
+  conversationId: ID!
+  createdAt: String
+  updatedAt: String
+}
+
+type ConversationLink
+  @model(
+    mutations: {
+      create: "createConversationLink"
+      update: "updateConversationLink"
+    }
+    subscriptions: null
+  ) {
+  id: ID!
+  user: User! @connection(name: "UserLinks")
+  conversationLinkUserId: ID
+  conversation: Conversation! @connection(name: "AssociatedLinks")
+  conversationLinkConversationId: ID!
+  createdAt: String
+  updatedAt: String
+}
+
+type Subscription {
+  onCreateConversationLink(conversationLinkUserId: ID!): ConversationLink
+    @aws_subscribe(mutations: ["createConversationLink"])
+  onCreateMessage(conversationId: ID!): Message
+    @aws_subscribe(mutations: ["createMessage"])
+}

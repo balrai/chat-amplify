@@ -1,0 +1,20 @@
+{
+    "master": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-hkex-master-122732-authRole",
+            "UnauthRoleArn": "arn:aws:iam::080658426558:role/amplify-hkex-master-122732-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::080658426558:role/amplify-hkex-master-122732-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "amplify-hkex-master-122732-deployment",
+            "UnauthRoleName": "amplify-hkex-master-122732-unauthRole",
+            "StackName": "amplify-hkex-master-122732",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:080658426558:stack/amplify-hkex-master-122732/8eb7e210-1bce-11ea-9c5e-0ad08b3552b8",
+            "AmplifyAppId": "doztgo5rl8i2x"
+        },
+        "categories": {
+            "auth": {
+                "hkexcf424c19": {}
+            }
+        }
+    }
+}
